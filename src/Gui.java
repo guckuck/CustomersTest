@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.event.*;
 
 /**
  *
@@ -77,12 +76,12 @@ public class Gui extends JFrame {
     });
     cp.add(bLoadCustomer);
     lStatus.setBounds(29, 118, 302, 20);
-    lStatus.setText("Status");
+    lStatus.setText("State");
     cp.add(lStatus);
     jListCustomers.setModel(jListCustomersModel);
     jListCustomersScrollPane.setBounds(413, 32, 198, 204);
     cp.add(jListCustomersScrollPane);
-    bDeleteCustomer.setBounds(208, 200, 75, 25);
+    bDeleteCustomer.setBounds(207, 200, 187, 25);
     bDeleteCustomer.setText("Delete Customer");
     bDeleteCustomer.setMargin(new Insets(2, 2, 2, 2));
     bDeleteCustomer.addActionListener(new ActionListener() {
@@ -93,9 +92,6 @@ public class Gui extends JFrame {
     cp.add(bDeleteCustomer);
     jTextFieldDelCustomer.setBounds(32, 200, 150, 20);
     cp.add(jTextFieldDelCustomer);
-    bDeleteCustomer.setText("bDeleteCustomer");
-    bDeleteCustomer.setMargin(new Insets(2, 2, 2, 2));
-    cp.add(bDeleteCustomer);
     // Ende Komponenten
 
     setVisible(true);
@@ -119,20 +115,12 @@ public class Gui extends JFrame {
     Customer cust = new Customer(firstname, lastname);
     ((Datenbank) datenhaltung).storeCustomer(cust);
     //Customer cust = new Customer(firstname, lastname);
-    lStatus.setText("Customer stored.");
+    reloadCustomersList();
+    lStatus.setText("Customer created.");
   } // end of bCreateCustomer_ActionPerformed
 
   public void bLoadCustomer_ActionPerformed(ActionEvent evt) {
-    DefaultListModel model = new DefaultListModel(); // notwendig für die JList
-    jListCustomers.setModel(model);                  // notwendig für die JList
-    //loadDatabase();
-    ArrayList<Customer> allCustomers = ((Datenbank) datenhaltung).getAllCustomers();
-    allCustomers = datenhaltung.getAllCustomers();
-
-    for (Customer cust : allCustomers) {
-      model.addElement(cust.getFirstname() + " " + cust.getLastname());
-    }
-
+    reloadCustomersList();
     lStatus.setText("All customers loaded.");
   } // end of bLoadCustomer_ActionPerformed
 
@@ -160,10 +148,19 @@ public class Gui extends JFrame {
   public void bDeleteCustomer_ActionPerformed(ActionEvent evt) {
     int delCustNr = Integer.parseInt(jTextFieldDelCustomer.getText());
     ((Datenbank) datenhaltung).delCustomer(delCustNr);
+    reloadCustomersList();
     lStatus.setText("Customer was deleted!"); //TODO Fehlermeldung ggf. ergänzen
 
   } // end of bDeleteCustomer_ActionPerformed
 
+  private void reloadCustomersList() {
+    DefaultListModel model = new DefaultListModel(); // notwendig für die JList
+    jListCustomers.setModel(model);                  // notwendig für die JList
+    ArrayList<Customer> allCustomers = ((Datenbank) datenhaltung).getAllCustomers();
+    for (Customer cust : allCustomers) {
+      model.addElement(cust.getId() + " " + cust.getFirstname() + " " + cust.getLastname());
+    }
+  }
   // Ende Methoden
 } // end of class Gui
 

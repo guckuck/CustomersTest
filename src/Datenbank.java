@@ -54,7 +54,7 @@ public class Datenbank implements IDatenhaltung {
   public void storeCustomer(Customer customer){
     try {
       //loadDatabase();
-      String sql = "insert into customers (firstname, lastname) values ('" + customer.getFirstname() + "','" + customer.getLastname() + "');";
+      String sql = "INSERT INTO customers (firstname, lastname) VALUES ('" + customer.getFirstname() + "','" + customer.getLastname() + "');";
       statement.executeUpdate(sql);
       //lStatus.setText("Everything is ok. A new customer was created");
     } catch(SQLException e) {
@@ -64,7 +64,25 @@ public class Datenbank implements IDatenhaltung {
   }
 
   public Customer getCustomer(int id){
-    return null;
+    String sql = "SELECT * from customers WHERE id=" + id + ";";
+    ResultSet res;
+    Customer cust = null;
+    try {
+      res = statement.executeQuery(sql);
+      while (res.next()) { 
+        String fn = res.getString("firstname");
+        String ln = res.getString("lastname");
+        cust = new Customer(fn,ln);
+        cust.setId(id);
+        //model.addElement(ln + ", " + fn);
+      } // end of while
+      //lStatus.setText("All customers loaded!");
+    } catch(SQLException e) {
+      System.out.println(e.getMessage());
+      //closeConnection();
+    } // end of try
+    
+    return cust;
   }
 
   public ArrayList<Customer> getAllCustomers(){
@@ -76,7 +94,9 @@ public class Datenbank implements IDatenhaltung {
       while (res.next()) { 
         String fn = res.getString("firstname");
         String ln = res.getString("lastname");
+        int id = res.getInt("id");
         Customer cust = new Customer(fn,ln);
+        cust.setId(id);
         allCustomers.add(cust);
           System.out.println(fn);
         //model.addElement(ln + ", " + fn);
@@ -102,7 +122,15 @@ public class Datenbank implements IDatenhaltung {
   }
 
   public void delCustomer(Customer customer){
-    
+    try {
+      //loadDatabase();
+      String sql = "DELETE FROM customers WHERE id=" + customer.getId() +";";
+      statement.executeUpdate(sql);
+      // TODO Rückgabewert für Status wäre nett
+    } catch(SQLException e) {
+      System.out.println(e.getMessage());
+      //closeConnection(); //TODO
+    } // end of try
   }
 
 }

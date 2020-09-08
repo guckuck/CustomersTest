@@ -14,6 +14,8 @@ public class Customer {
   private int id;
   private String firstname;
   private String lastname;
+  private String email;
+
   public static ArrayList<Customer> allCustomers = new ArrayList<Customer>();
   
   public Customer(String firstname, String lastname) {
@@ -34,14 +36,24 @@ public class Customer {
     return firstname;
   }
   
-  public int getID() {
-    return id;
-  }
-  
   public String getLastname() {
     return lastname;
   }
+  
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
+  public String getEmail() {
+    return email;
+  }
+  
+   public int getId() {
+    return id;
+  }
 
+  public void setId(int id) {
+    this.id = id;
+  }
 
 }
