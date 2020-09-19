@@ -41,9 +41,7 @@ public class XML implements IDatenhaltung {
       DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
       Document doc = dBuilder.parse(inputFile);
       doc.getDocumentElement().normalize();
-      System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
       NodeList nList = doc.getElementsByTagName("customer");
-      System.out.println("----------------------------");
 
       for (int temp = 0; temp < nList.getLength(); temp++) {
         int id;
@@ -51,34 +49,13 @@ public class XML implements IDatenhaltung {
         String lastname;
         String email;
         Node nNode = nList.item(temp);
-        System.out.println("\nCurrent Element :" + nNode.getNodeName());
 
         if (nNode.getNodeType() == Node.ELEMENT_NODE) {
           Element eElement = (Element) nNode;
-          System.out.println("ID : "
-                  + eElement
-                          .getElementsByTagName("id")
-                          .item(0)
-                          .getTextContent());
           
           id = Integer.parseInt(eElement.getElementsByTagName("id").item(0).getTextContent());
-          System.out.println("First Name : "
-                  + eElement
-                          .getElementsByTagName("firstname")
-                          .item(0)
-                          .getTextContent());
           firstname = eElement.getElementsByTagName("firstname").item(0).getTextContent();
-          System.out.println("Last Name : "
-                  + eElement
-                          .getElementsByTagName("lastname")
-                          .item(0)
-                          .getTextContent());
           lastname = eElement.getElementsByTagName("lastname").item(0).getTextContent();
-          System.out.println("Email : "
-                  + eElement
-                          .getElementsByTagName("email")
-                          .item(0)
-                          .getTextContent());
           email = eElement.getElementsByTagName("email").item(0).getTextContent();
           Customer newCustomer = new Customer(firstname, lastname);
           newCustomer.setId(id);

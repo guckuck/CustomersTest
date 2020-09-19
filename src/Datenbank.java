@@ -29,7 +29,6 @@ public class Datenbank implements IDatenhaltung {
       if (connection == null) {
         connection = DriverManager.getConnection("jdbc:mysql://erp-learning.info:3306/customers_test", "customer", "customer123!");
         statement = connection.createStatement();
-          System.out.println("Datenbank.initDB()");
       } 
     } catch(SQLException e) {
         System.out.println(e.getMessage());
@@ -101,7 +100,6 @@ public class Datenbank implements IDatenhaltung {
         cust.setId(id);
         cust.setEmail(email);
         allCustomers.add(cust);
-          System.out.println(fn);
         //model.addElement(ln + ", " + fn);
       } // end of while
       //lStatus.setText("All customers loaded!");
