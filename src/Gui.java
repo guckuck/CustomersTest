@@ -104,11 +104,15 @@ public class Gui extends JFrame {
   public Gui(Datenbank db) {
     this();
     this.datenhaltung = db;
+    reloadCustomersList();
+
   }
 
   public Gui(XML xml) {
     this();
     this.datenhaltung = xml;
+    reloadCustomersList();
+
   }
 
   // Anfang Methoden
