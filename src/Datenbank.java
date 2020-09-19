@@ -54,7 +54,7 @@ public class Datenbank implements IDatenhaltung {
   public void storeCustomer(Customer customer){
     try {
       //loadDatabase();
-      String sql = "INSERT INTO customers (firstname, lastname) VALUES ('" + customer.getFirstname() + "','" + customer.getLastname() + "');";
+      String sql = "INSERT INTO customers (firstname, lastname, email) VALUES ('" + customer.getFirstname() + "','" + customer.getLastname()+ "','" + customer.getEmail()+ "');";
       statement.executeUpdate(sql);
       //lStatus.setText("Everything is ok. A new customer was created");
     } catch(SQLException e) {
@@ -72,14 +72,15 @@ public class Datenbank implements IDatenhaltung {
       while (res.next()) { 
         String fn = res.getString("firstname");
         String ln = res.getString("lastname");
+        String email = res.getString("email");
         cust = new Customer(fn,ln);
+        cust.setEmail(email);
         cust.setId(id);
         //model.addElement(ln + ", " + fn);
       } // end of while
       //lStatus.setText("All customers loaded!");
     } catch(SQLException e) {
       System.out.println(e.getMessage());
-      //closeConnection();
     } // end of try
     
     return cust;
@@ -94,9 +95,11 @@ public class Datenbank implements IDatenhaltung {
       while (res.next()) { 
         String fn = res.getString("firstname");
         String ln = res.getString("lastname");
+        String email = res.getString("email");
         int id = res.getInt("id");
         Customer cust = new Customer(fn,ln);
         cust.setId(id);
+        cust.setEmail(email);
         allCustomers.add(cust);
           System.out.println(fn);
         //model.addElement(ln + ", " + fn);
