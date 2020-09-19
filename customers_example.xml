@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<data>
+  <customer>
+    <id>1</id>
+    <firstname>Kay</firstname>
+    <lastname>Peters</lastname>
+    <email>k.p@mail.de</email>
+  </customer>
+  <customer>
+    <id>2</id>
+    <firstname>Svenja</firstname>
+    <lastname>Peters</lastname>
+    <email>s.p@mail.de</email>
+  </customer>
+</data>
