@@ -22,6 +22,7 @@ public class Gui extends JFrame {
   private JButton bCreateCustomer = new JButton();
   private JTextField tfLastname = new JTextField();
   private JTextField tfFirstname = new JTextField();
+  private JTextField tfEmail = new JTextField();
   private JButton bLoadCustomer = new JButton();
   private JLabel lStatus = new JLabel();
   private JList jListCustomers = new JList();
@@ -66,6 +67,9 @@ public class Gui extends JFrame {
     tfFirstname.setBounds(30, 65, 150, 20);
     tfFirstname.setText("Firstname");
     cp.add(tfFirstname);
+    tfEmail.setBounds(30, 100, 150, 20);
+    tfEmail.setText("Email");
+    cp.add(tfEmail);
     bLoadCustomer.setBounds(207, 65, 187, 25);
     bLoadCustomer.setText("Load Customer");
     bLoadCustomer.setMargin(new Insets(2, 2, 2, 2));
@@ -75,7 +79,7 @@ public class Gui extends JFrame {
       }
     });
     cp.add(bLoadCustomer);
-    lStatus.setBounds(29, 118, 302, 20);
+    lStatus.setBounds(30, 148, 302, 20);
     lStatus.setText("State");
     cp.add(lStatus);
     jListCustomers.setModel(jListCustomersModel);
@@ -112,8 +116,10 @@ public class Gui extends JFrame {
 
     String lastname = tfLastname.getText();    // Nutzereingabe holen
     String firstname = tfFirstname.getText();  // Nutzereingabe holen
+    String email = tfEmail.getText();
     Customer cust = new Customer(firstname, lastname);
-    ((Datenbank) datenhaltung).storeCustomer(cust);
+    cust.setEmail(email);
+    datenhaltung.storeCustomer(cust);
     //Customer cust = new Customer(firstname, lastname);
     reloadCustomersList();
     lStatus.setText("Customer created.");
@@ -123,31 +129,15 @@ public class Gui extends JFrame {
     reloadCustomersList();
     lStatus.setText("All customers loaded.");
   } // end of bLoadCustomer_ActionPerformed
-
-  /*  private void loadDatabase() {
-    try {
-      Class.forName("com.mysql.jdbc.Driver");
-      if (connection == null) {
-        connection = DriverManager.getConnection("jdbc:mysql://erp-learning.info:3306/customers_test", "customer", "customer123!");
-        statement = connection.createStatement();
-      } 
-    } catch(Exception e) {
-      System.out.println(e.getMessage());
-      closeConnection();
-    }// end of try     
-  }*/
- /*private void closeConnection() {
-    try {
-      statement.close();
-      connection.close();
-    } catch(Exception e) {
-      e.getMessage();
-    } // end of try
+  
     
-  }*/
+  /**
+   * Delete Button pressed
+   * @param evt ActionEvent
+   */
   public void bDeleteCustomer_ActionPerformed(ActionEvent evt) {
     int delCustNr = Integer.parseInt(jTextFieldDelCustomer.getText());
-    ((Datenbank) datenhaltung).delCustomer(delCustNr);
+    datenhaltung.delCustomer(delCustNr);
     reloadCustomersList();
     lStatus.setText("Customer was deleted!"); //TODO Fehlermeldung ggf. ergänzen
 
@@ -156,7 +146,7 @@ public class Gui extends JFrame {
   private void reloadCustomersList() {
     DefaultListModel model = new DefaultListModel(); // notwendig für die JList
     jListCustomers.setModel(model);                  // notwendig für die JList
-    ArrayList<Customer> allCustomers = ((Datenbank) datenhaltung).getAllCustomers();
+    ArrayList<Customer> allCustomers = datenhaltung.getAllCustomers();
     for (Customer cust : allCustomers) {
       model.addElement(cust.getId() + " " + cust.getFirstname() + " " + cust.getLastname());
     }
